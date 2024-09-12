@@ -143,6 +143,17 @@ app.post(`${BASE_REPORT_URL}/v2/users/:uid/tokens`, proxyObject());
 app.delete(`${BASE_REPORT_URL}/v2/users/:uid/tokens/:token`, proxyObject());
 app.get(`${BASE_REPORT_URL}/user/username/:username`, proxyObject());
 
+app.get(`${BASE_REPORT_URL}/v3/post/pid/:pid`, proxyObjectWithoutAuth());
+app.post(`${BASE_REPORT_URL}/v3/posts/:pid`, isEditablePost(), proxyObjectForPutApi());
+app.delete(`${BASE_REPORT_URL}/v3/posts/:pid`,isEditablePost() , proxyObject());
+app.put(`${BASE_REPORT_URL}/v3/posts/:pid/state`, proxyObject());
+app.delete(`${BASE_REPORT_URL}/v3/posts/:pid/state`, proxyObject());
+app.post(`${BASE_REPORT_URL}/v3/posts/:pid/vote`, proxyObject());
+app.delete(`${BASE_REPORT_URL}/v3/posts/:pid/vote`, proxyObject());
+app.post(`${BASE_REPORT_URL}/v3/posts/:pid/bookmark`, proxyObject());
+app.delete(`${BASE_REPORT_URL}/v3/posts/:pid/bookmark`, proxyObject());
+
+
 app.post(`${BASE_REPORT_URL}/user/v1/create`, async (req, res) => {
   try {
     const username = req.body.request.username;
@@ -184,7 +195,7 @@ function isEditablePost() {
     logger.info(req.body);
     const uid = parseInt(req.body.uid || req.query.uid, 10);
     const pid = parseInt(req.params.pid, 10);
-    const url = `${req.protocol}://${req.get('host')}${BASE_REPORT_URL}/post/pid/${pid}`
+    const url = `${req.protocol}://${req.get('host')}/discussions/api/v3/posts/pid/${pid}`
     const options = {
       url: url,
       method: 'GET',
@@ -201,9 +212,16 @@ function isEditablePost() {
         logger.info(body)
         if (body.uid === uid && body.pid === pid) {
           logger.info({message: 'Uid got matched and the post can be deleted'})
+          logger.info({message: 'uid and pid matched::'+body.uid+' '+body.pid})
           next();
-        } else {
+        } else if (body.pid === pid){
+          logger.info({message: 'Pid is not matched and you can not delete the post'})
+          logger.info({message: 'Url called::'+url})
+          res.status(400)
+          res.send(responseObj)
+        }else{
           logger.info({message: 'Uid is not matched and you can not delete the post'})
+          logger.info({message: 'Url called::'+url})
           res.status(400)
           res.send(responseObj)
         }
