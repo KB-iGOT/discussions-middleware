@@ -195,7 +195,7 @@ function isEditablePost() {
     logger.info(req.body);
     const uid = parseInt(req.body.uid || req.query.uid, 10);
     const pid = parseInt(req.params.pid, 10);
-    const url = `${req.protocol}://${req.get('host')}/discussions/api/v3/posts/pid/${pid}`
+    const url = `${nodebbServiceUrl}/v3/posts/pid/${pid}`
     const options = {
       url: url,
       method: 'GET',
