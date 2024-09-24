@@ -17,7 +17,8 @@ const axios = require('axios');
 const authorization = Authorization;
 const learnerServiceHost = sunbird_learner_service_host;
 const userReadPath = lms_user_read_path;
-const cassandraDriver = require('cassandra-driver')
+const cassandraDriver = require('cassandra-driver');
+const { lookup } = require('dns');
 
 let logObj = {
   "eid": "LOG",
@@ -210,7 +211,9 @@ function isEditablePost() {
           return;
         }
         logger.info(body)
-        if (body.uid === uid && body.pid === pid) {
+        logger.info(uid)
+        logger.info(body.response)
+        if (body.response.uid === uid && body.reponse.pid === pid) {
           logger.info({message: 'Uid got matched and the post can be deleted'})
           logger.info({message: 'uid and pid matched::'+body.uid+' '+body.pid})
           next();
