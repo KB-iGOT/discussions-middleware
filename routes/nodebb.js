@@ -213,16 +213,16 @@ function isEditablePost() {
         logger.info(body.response)
         if (body.response.uid === uid && body.response.pid === pid) {
           logger.info({message: 'Uid got matched and the post can be deleted'})
-          logger.info({message: 'uid and pid matched::'+body.uid+' '+body.pid})
+          logger.info({message: 'uid and pid matched::'+ body.response.uid+' '+body.response.pid})
           next();
         } else if (body.response.pid === pid){
           logger.info({message: 'Pid is not matched and you can not delete the post'})
-          logger.info({message: 'Url called::'+url})
+          logger.info({message: 'Url called::'+ url})
           res.status(400)
           res.send(responseObj)
-        }else{
+        } else{
           logger.info({message: 'Uid is not matched and you can not delete the post'})
-          logger.info({message: 'Url called::'+url})
+          logger.info({message: 'Url called::'+ url})
           res.status(400)
           res.send(responseObj)
         }
