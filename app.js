@@ -29,6 +29,7 @@ app.use(function(req, res, next) {
 });
 
 app.use(session({
+  proxy: true, // Crucial
   cookie: { secure: true }
 }));
 
