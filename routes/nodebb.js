@@ -234,7 +234,17 @@ function isEditablePost() {
 function proxyObject() {
   return proxy(nodebbServiceUrl, {
     proxyReqOptDecorator: proxyUtils.decorateRequestHeaders(),
-    proxyReqPathResolver: function (req) {
+    proxyReqPathResolver: function (req, res) {
+      logger.info('response--', res)
+      if (res) {
+        logger.info('User is authenticated.. Updating Cookie with Secure and SameSite flags')
+        res.cookie('express.sid', req.cookies['express.sid'], {
+            httpOnly: true,
+            maxAge: CONSTANTS.KEYCLOAK_SESSION_TTL,
+            sameSite: 'Strict',
+            secure: true,
+        })
+    }
       let urlParam = req.originalUrl.replace(BASE_REPORT_URL, '');
       logger.info({"message": `request comming from ${req.originalUrl}`})
       let query = require('url').parse(req.url).query;
