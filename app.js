@@ -1,12 +1,4 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var nodebb = require('./routes/nodebb');
-var cors = require('cors');
-var app = express();
-const telemetry = new (require('./libs/sb_telemetry_util/telemetryService'))()
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
