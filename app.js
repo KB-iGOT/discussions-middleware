@@ -28,7 +28,18 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
-logger.error({ message: "Cookie Issue" });
+app.get('/', (req,res)=>{
+  logger.info({message: 'request:'+req})
+  if (req.session && req.session.authenticated ) {
+    logInfo('User is authenticated.. Updating Cookie with Secure and SameSite flags')
+    res.cookie('express.sid', req.cookies['express.sid'], {
+        httpOnly: true,
+        maxAge: CONSTANTS.KEYCLOAK_SESSION_TTL,
+        sameSite: 'Strict',
+        secure: true,
+    })
+}
+})
 
 // error handler
 app.use(function(err, req, res, next) {
