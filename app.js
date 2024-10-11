@@ -21,16 +21,19 @@ app.use(cors());
 app.all('/health', (req,res,next) => {
   res.send({statusCode: 200, message: "health api"})
 })
+
+app.get('/', (req,res)=>{
+  //.....Other Code
+  res.cookie('cookieName', 'cookieValue', { sameSite: 'none', secure: true})
+  //.....Other Code
+})
+
 app.use('/', nodebb);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
-app.use((req, res) => {
-    res.cookie('tempCookie', 'tempCookie')
-})
 
 
 

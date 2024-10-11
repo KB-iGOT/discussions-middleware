@@ -5,7 +5,6 @@ const { NODEBB_SERVICE_URL, nodebb_api_slug, Authorization, lms_user_read_path, 
 const { logger } = require('@project-sunbird/logger');
 const BASE_REPORT_URL = "/discussion";
 const express = require('express');
-const session = require('express-session');
 const app = express();
 const sbLogger = require('sb_logger_util');
 const request = require('request');
@@ -37,11 +36,6 @@ const responseObj = {
   errorCode: 400,
   message: 'You are not authorized to perform this action.'
 };
-
-app.use(session({
-  proxy: true, // Crucial
-  cookie: { secure: true }
-}));
 
 app.post(`${BASE_REPORT_URL}/forum/v2/read`, proxyObject());
 app.post(`${BASE_REPORT_URL}/forum/v2/create`, proxyObject());
