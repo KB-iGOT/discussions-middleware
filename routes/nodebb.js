@@ -270,9 +270,23 @@ function proxyObject() {
           logger.info('existing cookies',  proxyRes.req.getHeader('cookie'))
           logger.info('proxyResponse headers', proxyRes.headers);
           logger.info('express cookies', proxyRes.headers["set-cookie"]);
+          let expressCookies = proxyRes.headers["set-cookie"]
+          let expressId = ''
+          if(expressCookies && expressCookies.length) {
+            expressCookies[0].split(";").find(function (c) {
+              if (c && c.indexOf("express.sid") > -1) {
+                let splitVal = c.split("=")
+                if(splitVal && splitVal.length > 1) {
+                  expressId = c.split("=")[1]
+                }
+                
+              }
+            })
+          }
+         console.log('expressId',expressId)
           if (res) {
             logger.info('User is authenticated.. Updating Cookie with Secure and SameSite flags')
-            res.cookie('express.sid', req.cookies['express.sid'], {
+            res.cookie('express.sid', expressId, {
                 httpOnly: true,
                 sameSite: 'Strict',
                 secure: true,
