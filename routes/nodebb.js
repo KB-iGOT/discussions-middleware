@@ -5,6 +5,7 @@ const { NODEBB_SERVICE_URL, nodebb_api_slug, Authorization, lms_user_read_path, 
 const { logger } = require('@project-sunbird/logger');
 const BASE_REPORT_URL = "/discussion";
 const express = require('express');
+const session = require('express-session');
 const app = express();
 const sbLogger = require('sb_logger_util');
 const request = require('request');
