@@ -272,7 +272,6 @@ function proxyObject() {
             logger.info('User is authenticated.. Updating Cookie with Secure and SameSite flags')
             res.cookie('express.sid', req.cookies['express.sid'], {
                 httpOnly: true,
-                maxAge: CONSTANTS.KEYCLOAK_SESSION_TTL,
                 sameSite: 'Strict',
                 secure: true,
             })
