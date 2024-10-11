@@ -267,7 +267,7 @@ function proxyObject() {
           return resCode;
         } else {
           edata['message'] = `${req.originalUrl} successfull`;
-          logger.info('response--', res, proxyRes)
+          logger.info('response--',  proxyRes, req.cookies['express.sid'])
           if (res) {
             logger.info('User is authenticated.. Updating Cookie with Secure and SameSite flags')
             res.cookie('express.sid', req.cookies['express.sid'], {
