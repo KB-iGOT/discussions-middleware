@@ -37,7 +37,11 @@ const responseObj = {
   message: 'You are not authorized to perform this action.'
 };
 
-
+app.get('/', (req,res)=>{
+  //.....Other Code
+  res.cookie('cookieName', 'cookieValue', { sameSite: 'none', secure: true})
+  //.....Other Code
+})
 
 app.post(`${BASE_REPORT_URL}/forum/v2/read`, proxyObject());
 app.post(`${BASE_REPORT_URL}/forum/v2/create`, proxyObject());

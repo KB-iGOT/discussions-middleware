@@ -22,7 +22,11 @@ app.all('/health', (req,res,next) => {
   res.send({statusCode: 200, message: "health api"})
 })
 
-
+app.get('/', (req,res)=>{
+  //.....Other Code
+  res.cookie('cookieName', 'cookieValue', { sameSite: 'none', secure: true})
+  //.....Other Code
+})
 
 app.use('/', nodebb);
 
