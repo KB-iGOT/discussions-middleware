@@ -234,7 +234,7 @@ function isEditablePost() {
 function proxyObject() {
   return proxy(nodebbServiceUrl, {
     proxyReqOptDecorator: proxyUtils.decorateRequestHeaders(),
-    proxyReqPathResolver: function (req) {
+    proxyReqPathResolver: function (req) {      
       let urlParam = req.originalUrl.replace(BASE_REPORT_URL, '');
       logger.info({"message": `request comming from ${req.originalUrl}`})
       let query = require('url').parse(req.url).query;
@@ -267,6 +267,31 @@ function proxyObject() {
           return resCode;
         } else {
           edata['message'] = `${req.originalUrl} successfull`;
+          logger.info('existing cookies',  proxyRes.req.getHeader('cookie'))
+          logger.info('proxyResponse headers', proxyRes.headers);
+          logger.info('express cookies', proxyRes.headers["set-cookie"]);
+          let expressCookies = proxyRes.headers["set-cookie"]
+          let expressId = ''
+          if(expressCookies && expressCookies.length) {
+            expressCookies[0].split(";").find(function (c) {
+              if (c && c.indexOf("express.sid") > -1) {
+                let splitVal = c.split("=")
+                if(splitVal && splitVal.length > 1) {
+                  expressId = c.split("=")[1]
+                }
+                
+              }
+            })
+          }
+         console.log('expressId',expressId)
+          if (res) {
+            logger.info('User is authenticated.. Updating Cookie with Secure and SameSite flags')
+            res.cookie('express.sid', expressId, {
+                httpOnly: true,
+                sameSite: 'Strict',
+                secure: true,
+            })
+        }
 	  logger.info({ message: `${req.originalUrl} found ${data}`})
           const resCode = proxyUtils.handleSessionExpiry(proxyRes, proxyResData, req, res, null)
           logTelemetryEvent(req, res, data, proxyResData, proxyRes, resCode)
