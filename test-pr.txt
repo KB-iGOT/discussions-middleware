@@ -7,3 +7,4 @@ received hookrequest in jenkins, but build not triggered so updating branch
 New changes in job for branch wildcard
 test again with removing existing parameter branch
 updated git pluginin jenkins
+Check pollscm config on jenkins
