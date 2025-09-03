@@ -10,3 +10,4 @@ updated git pluginin jenkins
 Check pollscm config on jenkins
 config changes
 updating branch
+testing in a free style job
