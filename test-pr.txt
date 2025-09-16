@@ -20,3 +20,4 @@ test poll with new pipeline job
 updating config for concurrent build
 duplicate job works, testing with empty parameters
 touh job config to test poll
+copy config.xml and verify
