@@ -13,3 +13,4 @@ updating branch
 testing in a free style job
 testing pollscm
 add default parameter
+test for any commit
